@@ -1,0 +1,123 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Editors and local tooling
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs and reports
+*.log
+logs/
+coverage/
+test-results/
+reports/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.key
+*.keystore
+*.jks
+*.mobileprovision
+*.provisionprofile
+secrets/
+
+# Node and web tooling
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+!.yarn/patches/
+!.yarn/plugins/
+!.yarn/releases/
+!.yarn/sdks/
+!.yarn/versions/
+dist/
+build/
+.next/
+.turbo/
+.vite/
+
+# iOS / Xcode
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.app
+*.appex
+*.framework
+*.xcarchive
+*.xcresult
+*.xccheckout
+
+# Swift Package Manager
+.build/
+Packages/
+Package.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/
+
+# Android / Gradle
+.gradle/
+local.properties
+captures/
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+android/.idea/
+android/**/build/
+android/**/.cxx/
+android/**/generated/
+android/**/intermediates/
+android/**/outputs/
+
+# Kotlin
+.kotlin/
+
+# Java
+hs_err_pid*
+replay_pid*
+
+# React Native / Metro, if introduced later
+.expo/
+.expo-shared/
+web-build/
+
+# Temporary files
+tmp/
+temp/
+.cache/
+
