@@ -32,10 +32,12 @@ The native shell must:
 
 The iOS app must:
 
-- Use a stable bundle identifier chosen before the first Xcode project is
-  committed.
-- Load Crewday in `WKWebView` or a documented wrapper around
-  `WKWebView`.
+- Use bundle identifier `day.crew.app` for production.
+- Use bundle identifier `day.crew.app.dev` for dev/test.
+- Use display name `Crewday` for production.
+- Use display name `Crewday Dev` for dev/test.
+- Load Crewday in `WKWebView`.
+- Do not add an iOS wrapper framework around `WKWebView` for v0.
 - Use an ephemeral `WKWebView` only for debug reset flows. The normal app
   must use persistent website data so the Crewday session survives app
   restarts.
@@ -59,13 +61,15 @@ The iOS app must:
 
 The Android app must:
 
-- Use a stable application ID chosen before the first Gradle project is
-  committed.
+- Use application ID `day.crew.app` for production.
+- Use application ID `day.crew.app.dev` for dev/test.
+- Use display name `Crewday` for production.
+- Use display name `Crewday Dev` for dev/test.
 - Use Kotlin for native source unless a later decision chooses a
   different language.
-- Choose exactly one web-container approach before implementation:
-  Android `WebView`, Chrome Custom Tabs, or Trusted Web Activity.
-  The choice is recorded in a decision file before code lands.
+- Load Crewday in Android `WebView`.
+- Do not use Trusted Web Activity or Chrome Custom Tabs as the primary
+  v0 app container.
 - Persist the web session across app restarts unless the user signs out
   or chooses debug data reset.
 - Publish Android App Links only after the deployment publishes matching
@@ -146,12 +150,14 @@ Disallowed native storage:
 
 Each platform must have explicit build flavors or schemes for:
 
-- Development: developer-controlled base URL, debug logging allowed, no
-  production signing.
-- Staging: fixed staging HTTPS base URL, release-like signing, native
-  push may be enabled.
-- Production: fixed production HTTPS base URL, store signing, native push
-  enabled only after credentials are configured.
+- Development: developer-controlled base URL for local emulator/simulator
+  work, debug logging allowed, no production signing.
+- Dev/test: fixed HTTPS base URL `https://dev-app.crew.day`,
+  release-like behavior, test signing, native push registration remains
+  off until dev/test APNS/FCM credentials exist.
+- Production: fixed HTTPS base URL `https://app.crew.day`, store
+  signing, native push registration remains off until production
+  credentials are configured.
 
 The base URL must be visible in build configuration. It must not be
 hidden in source code literals scattered through the app.

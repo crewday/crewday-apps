@@ -82,6 +82,20 @@ switcher as the web SPA.
 The native app does not install one app per workspace. Per-workspace PWA
 installs remain a browser-only feature owned by `../crewday`.
 
+The first known deployment hosts are:
+
+- Production: `https://app.crew.day`
+- Dev/test: `https://dev-app.crew.day`
+
+The first known app names and identifiers are:
+
+- Production display name: `Crewday`
+- Dev/test display name: `Crewday Dev`
+- iOS production bundle identifier: `day.crew.app`
+- iOS dev/test bundle identifier: `day.crew.app.dev`
+- Android production application ID: `day.crew.app`
+- Android dev/test application ID: `day.crew.app.dev`
+
 ## Initial Implementation Strategy
 
 The required v0 implementation is a thin native shell:
@@ -98,17 +112,24 @@ Multiplatform, a generated OpenAPI client, or a shared native UI layer is
 a new architecture decision. Do not introduce those tools without a
 decision record.
 
+The v0 platform containers are fixed:
+
+- iOS: `WKWebView`
+- Android: Android `WebView`
+
+Trusted Web Activity, Chrome Custom Tabs, Capacitor, React Native,
+Flutter, and Kotlin Multiplatform are not part of v0.
+
+Native push is designed into the shell from the start, but it is not a
+Phase 1 launch blocker. Push registration remains disabled until APNS and
+FCM credentials exist for the relevant environment.
+
 ## Blocked Decisions
 
 This repository has not yet chosen:
 
-- iOS bundle identifier.
-- Android application ID.
-- Production deployment host for the first shipped app.
-- App Store / Play Store distribution account.
-- Whether Android v0 is a `WebView`, Custom Tabs, or Trusted Web
-  Activity shell.
-- Whether iOS v0 is pure `WKWebView` or a larger framework wrapper.
+- Apple Developer organization account Team ID.
+- Google Play organization account and signing key.
 - FCM sender/project and APNS topic/team identifiers.
 
 These are blocked decisions, not implementation gaps. Code must not guess

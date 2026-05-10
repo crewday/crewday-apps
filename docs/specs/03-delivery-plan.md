@@ -34,7 +34,7 @@ Deliverables:
 
 - iOS project under `ios/`.
 - Android project under `android/`.
-- Build configuration for development, staging, and production base URLs.
+- Build configuration for development, dev/test, and production base URLs.
 - Native web container loads the configured base URL.
 - External-host navigation policy implemented.
 - Basic native connection error and retry UI.
@@ -77,6 +77,11 @@ Acceptance criteria:
 
 Purpose: let the server deliver agent-message notifications through APNS
 and FCM when deployment credentials are configured.
+
+Native push is designed from the start but enabled later. Phase 1 must not
+block on APNS or FCM credentials. Until credentials exist, the app skips
+registration and the server continues to return `501 push_unavailable` for
+native push-token registration.
 
 Deliverables:
 
@@ -121,17 +126,11 @@ that needs them.
 
 | Decision | Needed by | Default until answered |
 |----------|-----------|------------------------|
-| iOS bundle identifier | Phase 1 | No Xcode project committed |
-| Android application ID | Phase 1 | No Gradle project committed |
-| iOS shell approach: plain `WKWebView` vs framework wrapper | Phase 1 | Plain platform-native shell is assumed for docs only |
-| Android shell approach: `WebView`, Custom Tabs, or TWA | Phase 1 | No Android project committed |
-| First production app base URL | Phase 1 | Use build-time placeholder only |
-| Staging app base URL | Phase 1 | Use build-time placeholder only |
-| App display name | Phase 1 | `Crewday` in prose only |
-| App Store team/account | Phase 2 | Do not publish association files |
-| Play Store package owner/signing key | Phase 2 | Do not publish `assetlinks.json` |
-| APNS team id/topic/key | Phase 3 | Native push registration remains off |
-| FCM project/sender config | Phase 3 | Native push registration remains off |
+| Local development base URL policy | Phase 1 | Use loopback defaults from `../crewday`; passkey and link tests use dev/test |
+| Apple Developer organization account and Team ID | Phase 2 | Do not publish iOS association files or enable APNS |
+| Google Play organization account and signing key | Phase 2 | Do not publish `assetlinks.json` for production |
+| APNS topic/key per environment | Phase 3 | Native push registration remains off |
+| FCM project/sender config per environment | Phase 3 | Native push registration remains off |
 | Crash-reporting provider, if any | Before beta | Native crash reports disabled |
 
 ## Change Control

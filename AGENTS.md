@@ -35,8 +35,7 @@ in `../crewday/docs/specs/`.
 - Start from the smallest useful native shell before adding large frameworks or
   generated project structure.
 - The first implementation target is a thin platform shell around the existing
-  Crewday HTTPS web app. The exact iOS and Android container choices are
-  decision-gated in `docs/specs/03-delivery-plan.md`.
+  Crewday HTTPS web app: `WKWebView` on iOS and Android `WebView` on Android.
 - Native features should be isolated behind small platform adapters, such as
   authentication, deep links, push notifications, camera, files, location,
   calendar, contacts, payments, or offline storage.

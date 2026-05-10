@@ -13,15 +13,20 @@ listed in [`00-product-scope.md`](00-product-scope.md).
 Every native build has exactly one configured Crewday app base URL.
 
 Production builds must use HTTPS. Development builds may use local HTTP
-only for non-passkey smoke tests. Passkeys, universal links, app links,
-and push-notification tap-through behavior must be verified over HTTPS
-with a real host.
+only for emulator/simulator smoke tests that do not exercise passkeys,
+universal links, app links, or push-notification tap-through. Those flows
+must be verified over HTTPS with the real dev/test host.
 
-Expected examples:
+Canonical hosts:
 
-- Managed production app: `https://app.crew.day`
+- Production app: `https://app.crew.day`
+- Dev/test app: `https://dev-app.crew.day`
+
+Local automation exceptions:
+
 - Agent/dev host from this machine: `http://127.0.0.1:8100`
-- Android emulator reaching a host dev server: `http://10.0.2.2:8100`
+- Android emulator reaching a host dev server, when testing a local
+  non-passkey build: `http://10.0.2.2:8100`
 
 Do not hard-code `dev-app.crew.day` as an agent test target. In
 `../crewday`, that public hostname is protected by remote-entry auth;

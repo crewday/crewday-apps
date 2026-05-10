@@ -26,6 +26,12 @@ The shell:
 - Registers APNS/FCM push tokens through `/api/v1/me/push-tokens`.
 - Adds native adapters only for OS capabilities that the web app cannot
   provide by itself.
+- Uses plain platform-native code for the baseline; no Capacitor, React
+  Native, Flutter, or Kotlin Multiplatform layer is part of v0.
+- Uses `WKWebView` on iOS.
+- Uses Android `WebView` on Android.
+- Designs native push-token registration into the shell, but leaves push
+  disabled until APNS and FCM credentials exist.
 
 The shell does not:
 
@@ -35,14 +41,32 @@ The shell does not:
 - Add a custom URL scheme.
 - Create one binary per workspace.
 
-## Platform Choice Still Open
+## Fixed App Identity
 
-This decision does not yet choose concrete containers:
+- Production display name: `Crewday`
+- Dev/test display name: `Crewday Dev`
+- iOS production bundle identifier: `day.crew.app`
+- iOS dev/test bundle identifier: `day.crew.app.dev`
+- Android production application ID: `day.crew.app`
+- Android dev/test application ID: `day.crew.app.dev`
 
-- iOS: plain `WKWebView` vs a framework wrapper around `WKWebView`.
-- Android: `WebView`, Chrome Custom Tabs, or Trusted Web Activity.
+Separate dev/test identifiers let the dev/test app live beside the
+production app on the same phone. The identifiers are intended to be
+permanent after the first store release.
 
-Those choices are required before Phase 1 implementation in
+## Store Ownership
+
+The App Store and Play Store accounts should be organization-owned, not
+individual-owned. The accounts do not exist yet; create them before Phase
+2 association-file work or any public beta distribution.
+
+## Remaining Platform Inputs
+
+The container architecture is fixed. The remaining inputs are operational:
+Apple Developer Team ID, Google Play signing key, APNS credentials, FCM
+project configuration, and optional crash-reporting provider.
+
+Those operational inputs are tracked in
 [`../specs/03-delivery-plan.md`](../specs/03-delivery-plan.md).
 
 ## Consequences
