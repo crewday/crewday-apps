@@ -5,6 +5,15 @@ application lives in `../crewday` and already works well on mobile browsers. Use
 that as the primary product source of truth unless a task explicitly says
 otherwise.
 
+This repository currently contains specifications only. Do not add an Xcode
+project, Gradle project, Capacitor project, generated client, or native scaffold
+unless the task explicitly asks for implementation or the user approves that
+architecture direction.
+
+Before changing native scope, routes, auth, push, platform behavior, or app
+layout, read the native specs under `docs/specs/` and the relevant web-app spec
+in `../crewday/docs/specs/`.
+
 ## Product Direction
 
 - Build iOS and Android applications that leverage the existing Crewday web app
@@ -15,13 +24,19 @@ otherwise.
 - Keep iOS-specific, Android-specific, and shared code clearly separated.
 - Treat the native apps as companions to the web app, not as an independent
   rewrite.
+- The baseline product model is one native app per Crewday deployment, covering
+  every workspace the signed-in user belongs to. Do not design one binary per
+  workspace.
+- Use HTTPS Crewday URLs for links. Do not introduce a custom `crewday://`
+  scheme unless a future spec explicitly changes that rule.
 
 ## Architecture Expectations
 
 - Start from the smallest useful native shell before adding large frameworks or
   generated project structure.
-- A WebView or hybrid shell is acceptable when it preserves product quality and
-  reduces duplicated logic.
+- The first implementation target is a thin platform shell around the existing
+  Crewday HTTPS web app. The exact iOS and Android container choices are
+  decision-gated in `docs/specs/03-delivery-plan.md`.
 - Native features should be isolated behind small platform adapters, such as
   authentication, deep links, push notifications, camera, files, location,
   calendar, contacts, payments, or offline storage.
@@ -31,6 +46,11 @@ otherwise.
 - Do not copy web app business logic into this repo without first checking
   whether it can stay in `../crewday` or be exposed through an API/shared
   package.
+- Native auth uses the web passkey flow and the web session cookie. Do not add a
+  native bearer-token session model without a spec and decision update.
+- Native push tokens use the bare-host `/api/v1/me/push-tokens` REST surface in
+  `../crewday`; browser Web Push is a separate workspace-scoped surface and is
+  not the native app contract.
 
 ## Repository Layout
 
@@ -44,6 +64,9 @@ otherwise.
   platform integration plans.
 - `scripts/`: local automation for builds, validation, code generation, and
   release tasks.
+
+Create these directories only when they have real content. Avoid empty
+placeholder scaffolds.
 
 ## Development Rules
 
@@ -60,6 +83,12 @@ otherwise.
   consistent across iOS and Android.
 - When adding integration with `../crewday`, document the contract and any
   assumptions about routes, authentication, cookies, deep links, or APIs.
+- If implementation needs a route, endpoint, cookie behavior, associated-domain
+  file, or push payload that `../crewday` does not document, update the web-app
+  spec first or in the same change.
+- Do not store Crewday domain data natively unless a native spec explicitly
+  allows it. Allowed native storage is limited to shell configuration,
+  diagnostics, and native push-token bookkeeping.
 
 ## Verification
 
@@ -71,4 +100,3 @@ otherwise.
 - For shared scripts or tooling, run the relevant formatter, linter, or unit
   tests when available.
 - If a check cannot be run locally, report exactly what was skipped and why.
-
